@@ -26,7 +26,7 @@ def run_flask():
     port = int(os.environ.get("PORT", 8080))
     app.run(host='0.0.0.0', port=port)
 
-url = "https://citadel-hnll.onrender.com"
+url = "https://citadel-bot-52hq.onrender.com"
 
 client = AsyncIOMotorClient(
     uri,
