@@ -452,7 +452,7 @@ async def accept(ctx: discord.ApplicationContext, member: discord.Member):
         return
     for role in accept_roles:
         await member.add_roles(ctx.guild.get_role(role))
-        await member.remove_roles(ctx.guild.get_role(1300986977017135147))
+    await member.remove_roles(ctx.guild.get_role(1300986977017135147))
     await member.send("""
 > Добро пожаловать в Лазарет! Ознакомьтесь с ключевыми каналами:
 https://discord.com/channels/1300485165994217472/1300668883266703360
