@@ -66,6 +66,14 @@ send_test_ranks = {
     1300986279659569235
 }
 
+accept_roles = {
+    1352359283689525390,
+    1352359186524143778,
+    1352355528428490834,
+    1352359414329512037,
+    1352359802294243421
+}
+
 JSON_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "DataBase", "logs_channel.json")
 
 async def get_user_xp(user_id: int) -> int:
@@ -436,6 +444,22 @@ async def ask(ctx, *, question: str):
     except Exception as e:
         print(f"Error in ask slash_command: {e}")
         await ctx.respond(embed=discord.Embed(title="Ошибка", description="Произошла ошибка при обращении к AI.", color=discord.Color.red()), ephemeral=True)
+
+@bot.slash_command(name="accept")
+async def accept(ctx: discord.ApplicationContext, member: discord.Member):
+    for role in accept_roles:
+        await member.add_roles(ctx.guild.get_role(role))
+        await member.remove_roles(ctx.guild.get_role(1300986977017135147))
+    await member.send("""
+> Добро пожаловать в Лазарет! Ознакомьтесь с ключевыми каналами:
+https://discord.com/channels/1300485165994217472/1300668883266703360
+https://discord.com/channels/1300485165994217472/1300669020642742282
+https://discord.com/channels/1300485165994217472/1300669769514614914
+https://discord.com/channels/1300485165994217472/1349466548619710515
+https://discord.com/channels/1300485165994217472/1395854017439072306
+https://discord.com/channels/1300485165994217472/1300670260583862335
+""")
+    await ctx.respond(embed=discord.Embed(title="Принятие в Лазарет.", description=f"{member.mention} был успешно принят в Лазарет.", colour=0x48B5D6))
 
 Thread(target=run_flask).start()
 bot.run(BOT_TOKEN)
