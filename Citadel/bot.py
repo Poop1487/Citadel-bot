@@ -447,6 +447,9 @@ async def ask(ctx, *, question: str):
 
 @bot.slash_command(name="accept")
 async def accept(ctx: discord.ApplicationContext, member: discord.Member):
+    if not has_allowed_role(ctx, "accept"):
+        await ctx.respond(embed=discord.Embed(title="Ошибка", description="У вас нет прав на выполнение этой команды.", color=discord.Color.red()), ephemeral=True)
+        return
     for role in accept_roles:
         await member.add_roles(ctx.guild.get_role(role))
         await member.remove_roles(ctx.guild.get_role(1300986977017135147))
