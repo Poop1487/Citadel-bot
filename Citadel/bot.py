@@ -130,7 +130,7 @@ async def check_xp(member: discord.Member):
                         if promotion_channel:
                             await promotion_channel.send(embed=discord.Embed(
                                 title="`Автоматическое повышение`",
-                                description=f"`{member.mention} на ранг {next_role.mention} за {next_role_xp} ⚛︎ XP.`",
+                                description=f"{member.mention}` на ранг `{next_role.mention}` за `{next_role_xp}` ⚛︎ XP.`",
                                 colour=0x48B5D6))
                 except Exception:
                     pass
@@ -200,7 +200,7 @@ async def on_ready():
 
     await asyncio.sleep(850)
     try:
-        channel = bot.get_channel(1374363499458727946)
+        channel = bot.get_channel(1392168087524081807)
         if channel:
             await channel.send(embed=discord.Embed(
                 title="Я погружаюсь в сон...",
