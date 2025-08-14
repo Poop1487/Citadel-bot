@@ -181,25 +181,6 @@ async def on_ready():
         with open(JSON_PATH, "w", encoding="utf-8") as file:
             json.dump({"channel": -1, "promotion_channel": -1}, file, ensure_ascii=False, indent=4)
 
-    try:
-        for guild in bot.guilds:
-            for member in guild.members:
-                await asyncio.sleep(0.1)
-                if not member.bot:
-                    if await get_user_xp(member.id) == 0:
-                        await set_user_xp(member.id, 0)
-    except Exception as e:
-        print(f"Error initializing users: {e}")
-
-    try:
-        for guild in bot.guilds:
-            for member in guild.members:
-                await asyncio.sleep(0.1)
-                if not member.bot:
-                    await check_xp(member)
-    except Exception as e:
-        print(f"Error checking XP: {e}")
-
     await asyncio.sleep(850)
     try:
         channel = bot.get_channel(1392168087524081807)
@@ -243,6 +224,8 @@ https://discord.com/channels/1300485165994217472/1350278142107062312
 
 @bot.slash_command(name="xp")
 async def xp(ctx, member: discord.Member = None):
+    if await get_user_xp(member.id) == 0:
+        await set_user_xp(member.id, 0)
     try:
         if member is None:
             member = ctx.author
@@ -255,6 +238,8 @@ async def xp(ctx, member: discord.Member = None):
 
 @bot.slash_command(name="addxp")
 async def addxp(ctx, amount: int, member: discord.Member):
+    if await get_user_xp(member.id) == 0:
+        await set_user_xp(member.id, 0)
     try:
         if not has_allowed_role(ctx):
             await ctx.respond(embed=discord.Embed(title="Ошибка", description="У вас нет прав на выполнение этой команды.", color=discord.Color.red()), ephemeral=True)
@@ -271,6 +256,8 @@ async def addxp(ctx, amount: int, member: discord.Member):
 
 @bot.slash_command(name="remxp")
 async def remxp(ctx, amount: int, member: discord.Member):
+    if await get_user_xp(member.id) == 0:
+        await set_user_xp(member.id, 0)
     try:
         if not has_allowed_role(ctx):
             await ctx.respond(embed=discord.Embed(title="Ошибка", description="У вас нет прав на выполнение этой команды.", color=discord.Color.red()), ephemeral=True)
@@ -287,6 +274,8 @@ async def remxp(ctx, amount: int, member: discord.Member):
 
 @bot.slash_command(name="setxp")
 async def setxp(ctx, amount: int, member: discord.Member):
+    if await get_user_xp(member.id) == 0:
+        await set_user_xp(member.id, 0)
     try:
         if not has_allowed_role(ctx, "setxp"):
             await ctx.respond(embed=discord.Embed(title="Ошибка", description="У вас нет прав на выполнение этой команды.", color=discord.Color.red()), ephemeral=True)
@@ -312,6 +301,8 @@ async def addxptogroup(ctx, amount: int, *, mentions: str):
             await ctx.respond(embed=discord.Embed(title="Ошибка", description="Не удалось найти указанных участников.", colour=0x48B5D6))
             return
         for member in members:
+            if await get_user_xp(member.id) == 0:
+                await set_user_xp(member.id, 0)
             current_xp = await get_user_xp(member.id)
             new_xp = current_xp + amount
             await set_user_xp(member.id, new_xp)
@@ -335,6 +326,8 @@ async def remxpfromgroup(ctx, amount: int, *, mentions: str):
             await ctx.respond(embed=discord.Embed(title="Ошибка", description="Не удалось найти указанных участников.", colour=0x48B5D6))
             return
         for member in members:
+            if await get_user_xp(member.id) == 0:
+                await set_user_xp(member.id, 0)
             current_xp = await get_user_xp(member.id)
             new_xp = max(current_xp - amount, 0)
             await set_user_xp(member.id, new_xp)
@@ -359,6 +352,8 @@ async def setxpforgroup(ctx, amount: int, *, mentions: str):
             return
         amount_to_set = max(amount, 0)
         for member in members:
+            if await get_user_xp(member.id) == 0:
+                await set_user_xp(member.id, 0)
             await set_user_xp(member.id, amount_to_set)
             await check_xp(member)
         mentions_str = "\n".join(member.mention for member in members)
