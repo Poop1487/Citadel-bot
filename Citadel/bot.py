@@ -184,6 +184,7 @@ async def on_ready():
     try:
         for guild in bot.guilds:
             for member in guild.members:
+                await asyncio.sleep(0.1)
                 if not member.bot:
                     if await get_user_xp(member.id) == 0:
                         await set_user_xp(member.id, 0)
@@ -193,6 +194,7 @@ async def on_ready():
     try:
         for guild in bot.guilds:
             for member in guild.members:
+                await asyncio.sleep(0.1)
                 if not member.bot:
                     await check_xp(member)
     except Exception as e:
