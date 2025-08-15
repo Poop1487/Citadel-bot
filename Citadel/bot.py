@@ -45,6 +45,8 @@ intents.members = True
 
 bot = discord.Bot(intents=intents)
 
+lazaretGuild = bot.get_guild(1300485165994217472)
+
 colors = {
     "-": discord.Color.red(),
     "+": discord.Color.brand_green(),
@@ -171,7 +173,7 @@ def get_members_from_mentions(guild: discord.Guild, mentions: list[str]) -> list
 
 @bot.event
 async def on_ready():
-    print(f"{bot.user} has connected to Discord!")
+    waitTime = .1
     
     try:
         with open(JSON_PATH, "r", encoding="utf-8") as file:
@@ -182,23 +184,16 @@ async def on_ready():
             json.dump({"channel": -1, "promotion_channel": -1}, file, ensure_ascii=False, indent=4)
 
     try:
-        for guild in bot.guilds:
-            for member in guild.members:
-                if not member.bot:
-                    if await get_user_xp(member.id) == 0:
-                        await set_user_xp(member.id, 0)
+        for member in lazaretGuild.members:
+            await asyncio.sleep(waitTime)
+            if not member.bot:
+                if await get_user_xp(member.id) == 0:
+                    await set_user_xp(member.id, 0)
+                await check_xp(member)
     except Exception as e:
         print(f"Error initializing users: {e}")
 
-    try:
-        for guild in bot.guilds:
-            for member in guild.members:
-                if not member.bot:
-                    await check_xp(member)
-    except Exception as e:
-        print(f"Error checking XP: {e}")
-
-    await asyncio.sleep(850)
+    await asyncio.sleep(900-(len(lazaretGuild.members)*waitTime))
     try:
         channel = bot.get_channel(1392168087524081807)
         if channel:
