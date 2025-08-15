@@ -193,17 +193,17 @@ async def on_ready():
     except Exception as e:
         print(f"Error initializing users: {e}")
 
-    await asyncio.sleep(900-(len(lazaretGuild.members)*waitTime))
-    try:
-        channel = bot.get_channel(1392168087524081807)
-        if channel:
-            await channel.send(embed=discord.Embed(
-                title="Я погружаюсь в сон...",
-                description=f"Но если ты решишь разбудить меня - перейди по этой ссылке: {url}",
-                color=discord.Color.red()
-            ))
-    except Exception as e:
-        print(f"Error sending sleep message: {e}")
+    # await asyncio.sleep(850)
+    # try:
+    #     channel = bot.get_channel(1392168087524081807)
+    #     if channel:
+    #         await channel.send(embed=discord.Embed(
+    #             title="Я погружаюсь в сон...",
+    #             description=f"Но если ты решишь разбудить меня - перейди по этой ссылке: {url}",
+    #             color=discord.Color.red()
+    #         ))
+    # except Exception as e:
+    #     print(f"Error sending sleep message: {e}")
 
 @bot.event
 async def on_member_join(member):
