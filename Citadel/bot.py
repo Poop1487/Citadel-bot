@@ -430,7 +430,7 @@ async def ask(ctx: discord.ApplicationContext, *, question: str):
         otherInfo = asktocitadelInfo.get(ctx.author.id, "")
         info_text = f"Доп информация про меня {otherInfo}" if otherInfo else ""
         response = model.generate_content(
-            f"Ты - Лазарет бот для РП игры Элитарпия. Отвечай на русском, только по делу, не для реальной жизни, без магии, я {ctx.author.display_name}. {info_text} Вопрос: {question}",
+            f"Ты - Лазарет бот для РП игры Элитарпия. Отвечай на русском, только по делу, кратко не для реальной жизни, без магии, я {ctx.author.display_name}. {info_text} Вопрос: {question}",
             generation_config=genai.types.GenerationConfig(
                 temperature=0.1,
                 candidate_count=1,
