@@ -77,10 +77,10 @@ accept_roles = {
 }
 
 asktocitadelInfo = {
-    926130802243305512: "Вопрос задает твой создатель, уважай его",
-    1222850247450034176: "Вопрос задает зам. Лекаря, используй с ним сильный сарказм",
-    879261022538575953: "Вопрос задает Лекарь - главный в Лазарете, уважай его",
-    630464218461634570: "Вопрос задает плохой человек, говори с ним максимально плохо"
+    926130802243305512: "Я твой создатель, создатель бота Лазарета, а не самого Лазарета, при общении со мной пиши 'Слава какашкам'",
+    1222850247450034176: "Я зам. Лекаря, используй со мной сильный сарказм",
+    879261022538575953: "Я Лекарь - главный в Лазарете, уважай меня",
+    630464218461634570: "Я плохой человек, говори со мной максимально плохо"
 }
 
 JSON_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "DataBase", "logs_channel.json")
@@ -428,9 +428,9 @@ async def chpromchannel(ctx, channel: discord.TextChannel):
 async def ask(ctx: discord.ApplicationContext, *, question: str):
     try:
         otherInfo = asktocitadelInfo.get(ctx.author.id, "")
-        info_text = f"Доп информация про вопросодателя {otherInfo}" if otherInfo else ""
+        info_text = f"Доп информация про меня {otherInfo}" if otherInfo else ""
         response = model.generate_content(
-            f"Ты - Лазарет бот для РП игры Элитарпия. Отвечай на русском, только по делу, не для реальной жизни, без магии, тебе пишет {ctx.author.display_name}. {info_text} Вопрос: {question}",
+            f"Ты - Лазарет бот для РП игры Элитарпия. Отвечай на русском, только по делу, не для реальной жизни, без магии, я {ctx.author.display_name}. {info_text} Вопрос: {question}",
             generation_config=genai.types.GenerationConfig(
                 temperature=0.1,
                 candidate_count=1,
