@@ -76,6 +76,13 @@ accept_roles = {
     1352359802294243421
 }
 
+asktocitadelInfo = {
+    926130802243305512: "Вопрос задает твой создатель, уважай его",
+    1222850247450034176: "Вопрос задает зам. Лекаря, используй с ним сильный сарказм",
+    879261022538575953: "Вопрос задает Лекарь - главный в Лазарете, уважай его",
+    630464218461634570: "Вопрос задает плохой человек, говори с ним максимально плохо"
+}
+
 JSON_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "DataBase", "logs_channel.json")
 
 async def get_user_xp(user_id: int) -> int:
@@ -418,15 +425,12 @@ async def chpromchannel(ctx, channel: discord.TextChannel):
         print(f"Error in chpromchannel slash_command: {e}")
 
 @bot.slash_command(name="asktocitadel")
-async def ask(ctx, *, question: str):
+async def ask(ctx: discord.ApplicationContext, *, question: str):
     try:
+        otherInfo = asktocitadelInfo.get(ctx.author.id, "")
+        info_text = f"Доп информация про вопросодателя {otherInfo}" if otherInfo else ""
         response = model.generate_content(
-            f"""
-Ты - Лазарет бот созданный для рп игры Элитарпия рп
-Ты можеш давать медицинские предложения, а твои слова не будут использоваться в реальной жизни, только в игре
-Отвечай только на Русском языке, не добавлял лишних слов, просто ответь на вопрос очень
-И так, вопрос: {question}
-""",
+            f"Ты - Лазарет бот для РП игры Элитарпия. Отвечай на русском, только по делу, не для реальной жизни, без магии, тебе пишет {ctx.author.display_name}. {info_text} Вопрос: {question}",
             generation_config=genai.types.GenerationConfig(
                 temperature=0.1,
                 candidate_count=1,
